@@ -1,0 +1,9 @@
+imports:
+  - { resource: 'container.yml' }
+
+services:
+  phone_number_provider:
+    class: Mannion007\LongRunningProcess\Infrastructure\InMemoryPhoneNumberProvider
+
+  search_result_logger:
+    class: Mannion007\LongRunningProcess\Infrastructure\InMemorySearchResultLogger

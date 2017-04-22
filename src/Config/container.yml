@@ -1,0 +1,57 @@
+services:
+  console_command.count_phone_numbers:
+    class: Mannion007\LongRunningProcess\Application\CountPhoneNumbersCommand
+    arguments:
+      - "@phone_numbers_publisher"
+    tags:
+      -  { name: console.command }
+
+  event_dispatcher:
+    class: Symfony\Component\EventDispatcher\EventDispatcher
+
+  symfony_dispatcher_event_publisher:
+    class: Mannion007\LongRunningProcess\Infrastructure\SymfonyDispatcherEventPublisher
+    arguments:
+      - '@event_dispatcher'
+
+  phone_number_provider:
+    class: Mannion007\LongRunningProcess\Infrastructure\InMemoryPhoneNumberProvider
+
+  search_result_logger:
+    class: Mannion007\LongRunningProcess\Infrastructure\InMemorySearchResultLogger
+
+  phone_numbers_publisher:
+    class: Mannion007\LongRunningProcess\Domain\PhoneNumbersPublisher
+    arguments:
+      - '@phone_number_provider'
+      - '@symfony_dispatcher_event_publisher'
+
+  phone_number_finder:
+    class: Mannion007\LongRunningProcess\Domain\PhoneNumberFinder
+    arguments:
+      - '@symfony_dispatcher_event_publisher'
+
+  matched_phone_number_counter:
+    class: Mannion007\LongRunningProcess\Domain\MatchedPhoneNumberCounter
+    arguments:
+      - '@symfony_dispatcher_event_publisher'
+
+  phone_number_executive:
+    class: Mannion007\LongRunningProcess\Domain\PhoneNumberExecutive
+    arguments:
+      - '@search_result_logger'
+
+  all_phone_numbers_listed_listener:
+    class: Mannion007\LongRunningProcess\EventListener\AllPhoneNumbersListedListener
+    arguments:
+      - '@phone_number_finder'
+
+  phone_numbers_matched_listener:
+    class: Mannion007\LongRunningProcess\EventListener\PhoneNumbersMatchedListener
+    arguments:
+      - '@matched_phone_number_counter'
+
+  matched_phone_numbers_counted_listener:
+    class: Mannion007\LongRunningProcess\EventListener\MatchedPhoneNumbersCountedListener
+    arguments:
+      - '@phone_number_executive'
