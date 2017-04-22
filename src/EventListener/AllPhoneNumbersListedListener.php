@@ -15,7 +15,7 @@ class AllPhoneNumbersListedListener implements EventListenerInterface
         $this->phoneNumberFinder = $phoneNumberFinder;
     }
 
-    public function handle(EventInterface $event): void
+    public function handle(EventInterface $event) : void
     {
         $this->phoneNumberFinder->findPhoneNumbers($event->getPhoneNumbers());
     }

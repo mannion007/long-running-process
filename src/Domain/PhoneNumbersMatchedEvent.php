@@ -29,17 +29,17 @@ class PhoneNumbersMatchedEvent extends GenericEvent implements EventInterface
         return $this->phoneNumbers;
     }
 
-    public function getPayload(): array
+    public function getPayload() : array
     {
         return ['phone_numbers' => implode(',', $this->phoneNumbers)];
     }
 
-    public function getOccurredAt(): \DateTimeInterface
+    public function getOccurredAt() : \DateTimeInterface
     {
         return $this->occurredAt;
     }
 
-    public static function fromPayload(array $payload)
+    public static function fromPayload(array $payload) : PhoneNumbersMatchedEvent
     {
         return new self(explode(',', $payload['phone_numbers']));
     }

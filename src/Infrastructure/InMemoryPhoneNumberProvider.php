@@ -13,7 +13,7 @@ class InMemoryPhoneNumberProvider implements PhoneNumberProviderInterface
         $this->phoneNumbers[] = $phoneNumber;
     }
 
-    public function getPhoneNumbers(): array
+    public function getPhoneNumbers() : array
     {
         return $this->phoneNumbers;
     }

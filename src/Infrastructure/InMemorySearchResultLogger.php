@@ -17,7 +17,7 @@ class InMemorySearchResultLogger implements SearchResultLoggerInterface
         );
     }
 
-    public function getLogged()
+    public function getLogged() : string
     {
         return $this->logged;
     }

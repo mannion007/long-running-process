@@ -24,22 +24,22 @@ class MatchedPhoneNumbersCountedEvent extends GenericEvent implements EventInter
         return self::EVENT_NAME;
     }
 
-    public function getCount()
+    public function getCount() : int
     {
         return $this->count;
     }
 
-    public function getPayload(): array
+    public function getPayload() : array
     {
         return ['count' => $this->count];
     }
 
-    public function getOccurredAt(): \DateTimeInterface
+    public function getOccurredAt() : \DateTimeInterface
     {
         return $this->occurredAt;
     }
 
-    public static function fromPayload(array $payload)
+    public static function fromPayload(array $payload) : MatchedPhoneNumbersCountedEvent
     {
         return new self($payload['count']);
     }

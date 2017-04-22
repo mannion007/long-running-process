@@ -37,10 +37,8 @@ $eventDispatcher->addListener(
 );
 
 $console = new Application();
-
 $taggedCommands = $container->findTaggedServiceIds('console.command');
 foreach ($taggedCommands as $id => $tags) {
     $console->add($container->get($id));
 }
-
 $console->run();

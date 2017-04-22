@@ -15,7 +15,7 @@ class PhoneNumbersMatchedListener implements EventListenerInterface
         $this->matchedPhoneNumberCounter = $matchedPhoneNumberCounter;
     }
 
-    public function handle(EventInterface $event): void
+    public function handle(EventInterface $event) : void
     {
         $this->matchedPhoneNumberCounter->countMatchedPhoneNumbers($event->getPhoneNumbers());
     }
