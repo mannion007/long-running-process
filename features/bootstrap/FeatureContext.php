@@ -62,7 +62,7 @@ class FeatureContext implements Context
     }
 
     /**
-     * @When I Count occurrences of the 01474 area code
+     * @When I count occurrences of the 01474 area code
      */
     public function iCountOccurrencesOfThe01474AreaCode()
     {

@@ -16,5 +16,5 @@ Scenario: Counting the occurrences of an area code within a list which does have
     | 01757289083 |
     | 01324299082 |
     | 01474209081 |
-  When I Count occurrences of the 01474 area code
+  When I count occurrences of the 01474 area code
   Then The log should contain "3 of 10 phone numbers matched"
