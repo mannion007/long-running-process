@@ -2,18 +2,9 @@
 
 namespace Mannion007\LongRunningProcess\Domain;
 
-use Mannion007\Interfaces\EventPublisher\EventPublisherInterface;
-
 class PhoneNumberFinder
 {
-    private $eventPublisher;
-
-    public function __construct(EventPublisherInterface $eventPublisher)
-    {
-        $this->eventPublisher = $eventPublisher;
-    }
-
-    public function findPhoneNumbers(array $phoneNumbers) : void
+    public function findPhoneNumbers(array $phoneNumbers) : array
     {
         $matches = [];
         foreach ($phoneNumbers as $phoneNumber) {
@@ -21,6 +12,6 @@ class PhoneNumberFinder
                 $matches[] = $phoneNumber;
             }
         }
-        $this->eventPublisher->publish(new PhoneNumbersMatchedEvent($matches));
+        return $matches;
     }
 }

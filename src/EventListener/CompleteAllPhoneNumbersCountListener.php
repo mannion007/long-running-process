@@ -6,7 +6,7 @@ use Mannion007\Interfaces\Event\EventInterface;
 use Mannion007\Interfaces\EventListener\EventListenerInterface;
 use Mannion007\LongRunningProcess\Domain\PhoneNumberExecutive;
 
-class LogSearchResultListener implements EventListenerInterface
+class CompleteAllPhoneNumbersCountListener implements EventListenerInterface
 {
     private $phoneNumberExecutive;
 
@@ -17,6 +17,6 @@ class LogSearchResultListener implements EventListenerInterface
 
     public function handle(EventInterface $event) : void
     {
-        $this->phoneNumberExecutive->logResult($event->getCount());
+        $this->phoneNumberExecutive->allPhoneNumbersCounted($event->getProcessId(), $event->getCount());
     }
 }

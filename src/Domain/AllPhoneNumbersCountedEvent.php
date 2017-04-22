@@ -5,18 +5,18 @@ namespace Mannion007\LongRunningProcess\Domain;
 use Mannion007\Interfaces\Event\EventInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
-class MatchedPhoneNumbersCountedEvent extends GenericEvent implements EventInterface
+class AllPhoneNumbersCountedEvent extends GenericEvent implements EventInterface
 {
-    const EVENT_NAME = 'matched_phone_numbers_counted';
+    const EVENT_NAME = 'all_phone_numbers_counted';
 
     private $processId;
     private $count;
     private $occurredAt;
 
-    public function __construct(string $id, int $count, \DateTimeInterface $occurredAt = null)
+    public function __construct(string $processId, int $count, \DateTimeInterface $occurredAt = null)
     {
         parent::__construct(self::EVENT_NAME);
-        $this->processId = $id;
+        $this->processId = $processId;
         $this->count = $count;
         $this->occurredAt = is_null($occurredAt) ? new \DateTime() : $occurredAt;
     }
@@ -46,7 +46,7 @@ class MatchedPhoneNumbersCountedEvent extends GenericEvent implements EventInter
         return ['process_id' => $this->processId, 'count' => $this->count];
     }
 
-    public static function fromPayload(array $payload) : MatchedPhoneNumbersCountedEvent
+    public static function fromPayload(array $payload) : AllPhoneNumbersCountedEvent
     {
         return new self($payload['process_id'], $payload['count']);
     }

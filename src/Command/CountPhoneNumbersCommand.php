@@ -1,20 +1,20 @@
 <?php
 
-namespace Mannion007\LongRunningProcess\Application;
+namespace Mannion007\LongRunningProcess\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Mannion007\LongRunningProcess\Domain\PhoneNumbersPublisher;
+use Mannion007\LongRunningProcess\Domain\PhoneNumberExecutive;
 
 class CountPhoneNumbersCommand extends Command
 {
-    private $phoneNumbersPublisher;
+    private $phoneNumberExecutive;
 
-    public function __construct(PhoneNumbersPublisher $phoneNumbersPublisher)
+    public function __construct(PhoneNumberExecutive $phoneNumberExecutive)
     {
         parent::__construct();
-        $this->phoneNumbersPublisher = $phoneNumbersPublisher;
+        $this->phoneNumberExecutive = $phoneNumberExecutive;
     }
 
     protected function configure()
@@ -25,6 +25,6 @@ class CountPhoneNumbersCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->phoneNumbersPublisher->listAllPhoneNumbers();
+        $this->phoneNumberExecutive->searchPhoneNumbers();
     }
 }

@@ -23,7 +23,7 @@ class FeatureContext implements Context
     public function __construct()
     {
         $this->container = new \Symfony\Component\DependencyInjection\ContainerBuilder();
-        $loader = new \Symfony\Component\DependencyInjection\Loader\YamlFileLoader($this->container, new \Symfony\Component\Config\FileLocator($this->baseDir . DIRECTORY_SEPARATOR . "src" . DIRECTORY_SEPARATOR . "Config"));
+        $loader = new \Symfony\Component\DependencyInjection\Loader\YamlFileLoader($this->container, new \Symfony\Component\Config\FileLocator($this->baseDir . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Config'));
         $loader->load('container_test.yml');
 
         /** @var \Symfony\Component\EventDispatcher\EventDispatcher $eventDispatcher */
@@ -33,12 +33,20 @@ class FeatureContext implements Context
             [$this->container->get('find_phone_numbers_listener'), 'handle']
         );
         $eventDispatcher->addListener(
+            \Mannion007\LongRunningProcess\Domain\AllPhoneNumbersListedEvent::EVENT_NAME,
+            [$this->container->get('count_all_phone_numbers_listener'), 'handle']
+        );
+        $eventDispatcher->addListener(
             \Mannion007\LongRunningProcess\Domain\PhoneNumbersMatchedEvent::EVENT_NAME,
             [$this->container->get('count_matched_phone_numbers_listener'), 'handle']
         );
         $eventDispatcher->addListener(
             \Mannion007\LongRunningProcess\Domain\MatchedPhoneNumbersCountedEvent::EVENT_NAME,
-            [$this->container->get('log_search_result_listener'), 'handle']
+            [$this->container->get('complete_matched_phone_numbers_counted_listener'), 'handle']
+        );
+        $eventDispatcher->addListener(
+            \Mannion007\LongRunningProcess\Domain\AllPhoneNumbersCountedEvent::EVENT_NAME,
+            [$this->container->get('complete_all_phone_numbers_counted_listener'), 'handle']
         );
     }
 

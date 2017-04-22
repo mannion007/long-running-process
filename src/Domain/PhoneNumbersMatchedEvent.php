@@ -9,12 +9,14 @@ class PhoneNumbersMatchedEvent extends GenericEvent implements EventInterface
 {
     const EVENT_NAME = 'phone_numbers_matched';
 
+    private $processId;
     private $phoneNumbers;
     private $occurredAt;
 
-    public function __construct(array $phoneNumbers, \DateTimeInterface $occurredAt = null)
+    public function __construct(string $processId, array $phoneNumbers, \DateTimeInterface $occurredAt = null)
     {
         parent::__construct(self::EVENT_NAME);
+        $this->processId = $processId;
         $this->phoneNumbers = $phoneNumbers;
         $this->occurredAt = is_null($occurredAt) ? new \DateTime() : $occurredAt;
     }
@@ -24,6 +26,11 @@ class PhoneNumbersMatchedEvent extends GenericEvent implements EventInterface
         return self::EVENT_NAME;
     }
 
+    public function getProcessId() : string
+    {
+        return $this->processId;
+    }
+
     public function getPhoneNumbers()
     {
         return $this->phoneNumbers;
@@ -31,7 +38,7 @@ class PhoneNumbersMatchedEvent extends GenericEvent implements EventInterface
 
     public function getPayload() : array
     {
-        return ['phone_numbers' => implode(',', $this->phoneNumbers)];
+        return ['process_id' => $this->processId, 'phone_numbers' => implode(',', $this->phoneNumbers)];
     }
 
     public function getOccurredAt() : \DateTimeInterface
@@ -41,6 +48,6 @@ class PhoneNumbersMatchedEvent extends GenericEvent implements EventInterface
 
     public static function fromPayload(array $payload) : PhoneNumbersMatchedEvent
     {
-        return new self(explode(',', $payload['phone_numbers']));
+        return new self($payload['process_id'], explode(',', $payload['phone_numbers']));
     }
 }

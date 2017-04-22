@@ -1,8 +1,8 @@
 services:
   console_command.count_phone_numbers:
-    class: Mannion007\LongRunningProcess\Application\CountPhoneNumbersCommand
+    class: Mannion007\LongRunningProcess\Command\CountPhoneNumbersCommand
     arguments:
-      - "@phone_numbers_publisher"
+      - "@phone_number_executive"
     tags:
       -  { name: console.command }
 
@@ -20,38 +20,46 @@ services:
   search_result_logger:
     class: Mannion007\LongRunningProcess\Infrastructure\InMemorySearchResultLogger
 
-  phone_numbers_publisher:
-    class: Mannion007\LongRunningProcess\Domain\PhoneNumbersPublisher
-    arguments:
-      - '@phone_number_provider'
-      - '@symfony_dispatcher_event_publisher'
-
   phone_number_finder:
     class: Mannion007\LongRunningProcess\Domain\PhoneNumberFinder
-    arguments:
-      - '@symfony_dispatcher_event_publisher'
+
+  all_phone_numbers_counter:
+    class: Mannion007\LongRunningProcess\Domain\AllPhoneNumbersCounter
 
   matched_phone_number_counter:
     class: Mannion007\LongRunningProcess\Domain\MatchedPhoneNumberCounter
-    arguments:
-      - '@symfony_dispatcher_event_publisher'
 
   phone_number_executive:
     class: Mannion007\LongRunningProcess\Domain\PhoneNumberExecutive
     arguments:
+      - '@phone_number_provider'
       - '@search_result_logger'
+      - '@symfony_dispatcher_event_publisher'
 
   find_phone_numbers_listener:
     class: Mannion007\LongRunningProcess\EventListener\FindPhoneNumbersListener
     arguments:
       - '@phone_number_finder'
+      - '@symfony_dispatcher_event_publisher'
+
+  count_all_phone_numbers_listener:
+    class: Mannion007\LongRunningProcess\EventListener\CountAllPhoneNumbersListener
+    arguments:
+      - '@all_phone_numbers_counter'
+      - '@symfony_dispatcher_event_publisher'
 
   count_matched_phone_numbers_listener:
     class: Mannion007\LongRunningProcess\EventListener\CountMatchedPhoneNumbersListener
     arguments:
       - '@matched_phone_number_counter'
+      - '@symfony_dispatcher_event_publisher'
 
-  log_search_result_listener:
-    class: Mannion007\LongRunningProcess\EventListener\LogSearchResultListener
+  complete_matched_phone_numbers_counted_listener:
+    class: Mannion007\LongRunningProcess\EventListener\CompleteMatchedPhoneNumbersCountListener
+    arguments:
+      - '@phone_number_executive'
+
+  complete_all_phone_numbers_counted_listener:
+    class: Mannion007\LongRunningProcess\EventListener\CompleteAllPhoneNumbersCountListener
     arguments:
       - '@phone_number_executive'
