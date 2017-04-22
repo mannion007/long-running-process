@@ -6,7 +6,7 @@ use Mannion007\Interfaces\Event\EventInterface;
 use Mannion007\Interfaces\EventListener\EventListenerInterface;
 use Mannion007\LongRunningProcess\Domain\MatchedPhoneNumberCounter;
 
-class PhoneNumbersMatchedListener implements EventListenerInterface
+class CountMatchedPhoneNumbersListener implements EventListenerInterface
 {
     private $matchedPhoneNumberCounter;
 

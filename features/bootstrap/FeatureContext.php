@@ -3,7 +3,6 @@
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
-use Mannion007\LongRunningProcess\Infrastructure\InMemoryPhoneNumberProvider;
 
 /**
  * Defines application features from the specific context.
@@ -31,15 +30,15 @@ class FeatureContext implements Context
         $eventDispatcher = $this->container->get('event_dispatcher');
         $eventDispatcher->addListener(
             \Mannion007\LongRunningProcess\Domain\AllPhoneNumbersListedEvent::EVENT_NAME,
-            [$this->container->get('all_phone_numbers_listed_listener'), 'handle']
+            [$this->container->get('find_phone_numbers_listener'), 'handle']
         );
         $eventDispatcher->addListener(
             \Mannion007\LongRunningProcess\Domain\PhoneNumbersMatchedEvent::EVENT_NAME,
-            [$this->container->get('phone_numbers_matched_listener'), 'handle']
+            [$this->container->get('count_matched_phone_numbers_listener'), 'handle']
         );
         $eventDispatcher->addListener(
             \Mannion007\LongRunningProcess\Domain\MatchedPhoneNumbersCountedEvent::EVENT_NAME,
-            [$this->container->get('matched_phone_numbers_counted_listener'), 'handle']
+            [$this->container->get('log_search_result_listener'), 'handle']
         );
     }
 

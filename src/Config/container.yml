@@ -41,17 +41,17 @@ services:
     arguments:
       - '@search_result_logger'
 
-  all_phone_numbers_listed_listener:
-    class: Mannion007\LongRunningProcess\EventListener\AllPhoneNumbersListedListener
+  find_phone_numbers_listener:
+    class: Mannion007\LongRunningProcess\EventListener\FindPhoneNumbersListener
     arguments:
       - '@phone_number_finder'
 
-  phone_numbers_matched_listener:
-    class: Mannion007\LongRunningProcess\EventListener\PhoneNumbersMatchedListener
+  count_matched_phone_numbers_listener:
+    class: Mannion007\LongRunningProcess\EventListener\CountMatchedPhoneNumbersListener
     arguments:
       - '@matched_phone_number_counter'
 
-  matched_phone_numbers_counted_listener:
-    class: Mannion007\LongRunningProcess\EventListener\MatchedPhoneNumbersCountedListener
+  log_search_result_listener:
+    class: Mannion007\LongRunningProcess\EventListener\LogSearchResultListener
     arguments:
       - '@phone_number_executive'

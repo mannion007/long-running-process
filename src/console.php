@@ -25,15 +25,15 @@ $provider->addPhoneNumber('01474334065');
 $eventDispatcher = $container->get('event_dispatcher');
 $eventDispatcher->addListener(
     \Mannion007\LongRunningProcess\Domain\AllPhoneNumbersListedEvent::EVENT_NAME,
-    [$container->get('all_phone_numbers_listed_listener'), 'handle']
+    [$container->get('find_phone_numbers_listener'), 'handle']
 );
 $eventDispatcher->addListener(
     \Mannion007\LongRunningProcess\Domain\PhoneNumbersMatchedEvent::EVENT_NAME,
-    [$container->get('phone_numbers_matched_listener'), 'handle']
+    [$container->get('count_matched_phone_numbers_listener'), 'handle']
 );
 $eventDispatcher->addListener(
     \Mannion007\LongRunningProcess\Domain\MatchedPhoneNumbersCountedEvent::EVENT_NAME,
-    [$container->get('matched_phone_numbers_counted_listener'), 'handle']
+    [$container->get('log_search_result_listener'), 'handle']
 );
 
 $console = new Application();
