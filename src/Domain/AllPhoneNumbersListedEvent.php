@@ -10,13 +10,19 @@ class AllPhoneNumbersListedEvent extends GenericEvent implements EventInterface
     const EVENT_NAME = 'all_phone_numbers_listed';
 
     private $processId;
+    private $areaCode;
     private $phoneNumbers;
     private $occurredAt;
 
-    public function __construct(string $id, array $phoneNumbers, \DateTimeInterface $occurredAt = null)
-    {
+    public function __construct(
+        string $id,
+        string $areaCode,
+        array $phoneNumbers,
+        \DateTimeInterface $occurredAt = null
+    ) {
         parent::__construct(self::EVENT_NAME);
         $this->processId = $id;
+        $this->areaCode = $areaCode;
         $this->phoneNumbers = $phoneNumbers;
         $this->occurredAt = is_null($occurredAt) ? new \DateTime() : $occurredAt;
     }
@@ -29,6 +35,11 @@ class AllPhoneNumbersListedEvent extends GenericEvent implements EventInterface
     public function getProcessId() : string
     {
         return $this->processId;
+    }
+
+    public function getAreaCode() : string
+    {
+        return $this->areaCode;
     }
     
     public function getPhoneNumbers() : array

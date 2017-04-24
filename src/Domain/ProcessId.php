@@ -23,12 +23,12 @@ class ProcessId
         return new self($existing);
     }
 
-    public function isNot(ProcessId $other)
+    public function doesNotEqual(ProcessId $other)
     {
-        return !$this->is($other);
+        return !$this->equals($other);
     }
 
-    public function is(ProcessId $other)
+    public function equals(ProcessId $other)
     {
         return $this->processId === (string)$other;
     }

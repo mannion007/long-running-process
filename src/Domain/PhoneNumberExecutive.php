@@ -26,7 +26,7 @@ class PhoneNumberExecutive
         $this->eventPublisher = $eventPublisher;
     }
 
-    public function searchPhoneNumbers()
+    public function searchPhoneNumbers(AreaCode $areaCode)
     {
         $phoneNumbers = $this->phoneNumberProvider->getPhoneNumbers();
         if (count($phoneNumbers) == 0) {
@@ -34,12 +34,14 @@ class PhoneNumberExecutive
         }
 
         $this->processId = ProcessId::generate();
-        $this->eventPublisher->publish(new AllPhoneNumbersListedEvent($this->processId, $phoneNumbers));
+        $this->eventPublisher->publish(
+            new AllPhoneNumbersListedEvent($this->processId, (string)$areaCode, $phoneNumbers)
+        );
     }
 
-    public function matchedPhoneNumbersCounted(string $processId, int $matchedCount)
+    public function matchedPhoneNumbersCounted(string $processId, int $matchedCount) : void
     {
-        if ($this->processId->isNot(ProcessId::fromExisting($processId))) {
+        if ($this->processId->doesNotEqual(ProcessId::fromExisting($processId))) {
             throw new \Exception('Event is from another process');
         }
         $this->matchedPhoneNumbersCount = $matchedCount;
@@ -48,9 +50,9 @@ class PhoneNumberExecutive
         }
     }
 
-    public function allPhoneNumbersCounted(string $processId, int $totalCount)
+    public function allPhoneNumbersCounted(string $processId, int $totalCount) : void
     {
-        if ($this->processId->isNot(ProcessId::fromExisting($processId))) {
+        if ($this->processId->doesNotEqual(ProcessId::fromExisting($processId))) {
             throw new \Exception('Event is from another process');
         }
         $this->allPhoneNumbersCount = $totalCount;

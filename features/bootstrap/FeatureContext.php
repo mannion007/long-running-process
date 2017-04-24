@@ -51,9 +51,9 @@ class FeatureContext implements Context
     }
 
     /**
-     * @Given I have the phone numbers:
+     * @Given I have the list of customers with phone numbers:
      */
-    public function iHaveThePhoneNumbers(TableNode $tableNode)
+    public function iHaveTheListOfCustomersWithPhoneNumbers(TableNode $tableNode)
     {
         $phoneNumberProvider = $this->container->get('phone_number_provider');
         foreach ($tableNode->getIterator() as $row) {
@@ -62,12 +62,12 @@ class FeatureContext implements Context
     }
 
     /**
-     * @When I count occurrences of the 01474 area code
+     * @When I count occurrences of the :areaCode area code
      */
-    public function iCountOccurrencesOfThe01474AreaCode()
+    public function iCountOccurrencesOfTheAreaCode(string $areaCode)
     {
         $command = $this->container->get("console_command.count_phone_numbers");
-        $input = new Symfony\Component\Console\Input\ArrayInput([]);
+        $input = new Symfony\Component\Console\Input\ArrayInput(['area_code' => $areaCode]);
         $output = new \Symfony\Component\Console\Output\BufferedOutput();
         $command->run($input, $output);
     }
